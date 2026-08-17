@@ -1,0 +1,179 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── CSS Custom Properties ─────────────────────────────────────────────────── */
+:root {
+  --neon-blue:    #0062ff;
+  --neon-cyan:    #00eeff;
+  --neon-violet:  #a855f7;
+  --void-950:     #03030a;
+  --void-900:     #06060f;
+  --void-800:     #0a0a18;
+  --void-700:     #0e0e22;
+
+  --glow-blue:    0 0 24px rgba(0, 98, 255, 0.6), 0 0 48px rgba(0, 98, 255, 0.3);
+  --glow-cyan:    0 0 16px rgba(0, 238, 255, 0.5), 0 0 32px rgba(0, 238, 255, 0.25);
+  --glow-violet:  0 0 16px rgba(168, 85, 247, 0.5), 0 0 32px rgba(168, 85, 247, 0.25);
+}
+
+/* ─── Base Reset & Dark Theme ────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--void-950);
+  color: #e4e8f0;
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Subtle noise texture overlay on the body */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Glassmorphism Utility Classes ──────────────────────────────────────────── */
+@layer components {
+  .glass-card {
+    @apply rounded-2xl border backdrop-blur-md;
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    transition: box-shadow 0.3s ease, background 0.3s ease;
+  }
+
+  .glass-card:hover {
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.10);
+  }
+
+  .glass-card-neon {
+    @apply glass-card;
+    border-color: rgba(0, 98, 255, 0.25);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.4),
+      0 0 0 1px rgba(0, 98, 255, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+
+  /* Neon text glow effect */
+  .text-neon-glow {
+    text-shadow:
+      0 0 8px rgba(0, 98, 255, 0.7),
+      0 0 16px rgba(0, 98, 255, 0.4),
+      0 0 32px rgba(0, 98, 255, 0.2);
+  }
+
+  .text-cyan-glow {
+    text-shadow:
+      0 0 8px rgba(0, 238, 255, 0.7),
+      0 0 16px rgba(0, 238, 255, 0.4);
+  }
+
+  /* Neon button */
+  .btn-neon {
+    @apply relative overflow-hidden rounded-xl px-6 py-3 font-semibold transition-all duration-300;
+    background: linear-gradient(135deg, #0062ff 0%, #0047cc 100%);
+    box-shadow: 0 0 16px rgba(0, 98, 255, 0.4), 0 4px 12px rgba(0, 0, 0, 0.3);
+    color: white;
+  }
+
+  .btn-neon:hover {
+    box-shadow: 0 0 24px rgba(0, 98, 255, 0.7), 0 0 48px rgba(0, 98, 255, 0.3), 0 4px 16px rgba(0, 0, 0, 0.4);
+    transform: translateY(-1px);
+  }
+
+  .btn-neon:active {
+    transform: translateY(0px);
+  }
+
+  .btn-neon::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  /* Ghost button */
+  .btn-ghost {
+    @apply relative overflow-hidden rounded-xl px-6 py-3 font-semibold transition-all duration-300;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(0, 98, 255, 0.5);
+    color: white;
+    box-shadow: 0 0 16px rgba(0, 98, 255, 0.2);
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--void-900);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(0, 98, 255, 0.4);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 98, 255, 0.7);
+  }
+}
+
+/* ─── Animations ─────────────────────────────────────────────────────────────── */
+
+/* Gradient orb that moves in the background */
+.orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(80px);
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* Shimmer skeleton */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04) 25%,
+    rgba(255, 255, 255, 0.10) 50%,
+    rgba(255, 255, 255, 0.04) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* ─── Selection highlight ────────────────────────────────────────────────────── */
+::selection {
+  background: rgba(0, 98, 255, 0.35);
+  color: white;
+}
