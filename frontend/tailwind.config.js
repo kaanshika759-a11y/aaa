@@ -53,10 +53,11 @@ module.exports = {
 
       // ── Typography ─────────────────────────────────────────────────────────
       fontFamily: {
-        sans:  ["Inter", "system-ui", "sans-serif"],
-        display: ["Outfit", "Inter", "sans-serif"],
-        mono:  ["JetBrains Mono", "Fira Code", "monospace"],
+        sans:  ["var(--font-inter)", "Inter", "system-ui", "sans-serif"],
+        display: ["var(--font-outfit)", "Outfit", "Inter", "sans-serif"],
+        mono:  ["var(--font-mono)", "JetBrains Mono", "Fira Code", "monospace"],
       },
+
 
       // ── Background Gradients ───────────────────────────────────────────────
       backgroundImage: {

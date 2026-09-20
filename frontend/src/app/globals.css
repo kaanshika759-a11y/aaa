@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -176,4 +174,15 @@ body::before {
 ::selection {
   background: rgba(0, 98, 255, 0.35);
   color: white;
+}
+
+/* ─── Practice page conversation text input ──────────────────────────────────── */
+/* Ensures placeholder and typed text are clearly visible on the light-bg input */
+#conversation-text-input::placeholder {
+  color: #64748b;
+  opacity: 1;
+}
+#conversation-text-input:disabled {
+  color: #475569;
+  opacity: 0.7;
 }

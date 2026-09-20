@@ -12,18 +12,18 @@
 import { useRef, useCallback } from "react";
 
 type ChunkCallback = (pcm16Buffer: ArrayBuffer) => void;
-type LevelCallback  = (level: number) => void;       // 0–1 normalised
+type LevelCallback = (level: number) => void;       // 0–1 normalised
 
 const SAMPLE_RATE = 16_000; // Deepgram optimal
 const BUFFER_SIZE = 4_096;
 
 export function useAudioCapture() {
-  const streamRef    = useRef<MediaStream | null>(null);
-  const ctxRef       = useRef<AudioContext | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+  const ctxRef = useRef<AudioContext | null>(null);
   const processorRef = useRef<ScriptProcessorNode | null>(null);
-  const analyserRef  = useRef<AnalyserNode | null>(null);
-  const rafRef       = useRef<number>(0);
-  const isCapturing  = useRef(false);
+  const analyserRef = useRef<AnalyserNode | null>(null);
+  const rafRef = useRef<number>(0);
+  const isCapturing = useRef(false);
 
   const startCapture = useCallback(
     async (onChunk: ChunkCallback, onLevel: LevelCallback) => {
@@ -35,7 +35,7 @@ export function useAudioCapture() {
       const ctx = new AudioContext({ sampleRate: SAMPLE_RATE });
       ctxRef.current = ctx;
 
-      const source   = ctx.createMediaStreamSource(stream);
+      const source = ctx.createMediaStreamSource(stream);
       const analyser = ctx.createAnalyser();
       analyser.fftSize = 256;
       analyserRef.current = analyser;
@@ -80,10 +80,10 @@ export function useAudioCapture() {
     streamRef.current?.getTracks().forEach((t) => t.stop());
 
     processorRef.current = null;
-    analyserRef.current  = null;
-    ctxRef.current       = null;
-    streamRef.current    = null;
-    isCapturing.current  = false;
+    analyserRef.current = null;
+    ctxRef.current = null;
+    streamRef.current = null;
+    isCapturing.current = false;
   }, []);
 
   return { startCapture, stopCapture, isCapturing };

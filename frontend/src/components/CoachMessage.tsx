@@ -2,7 +2,7 @@
 
 /**
  * CoachMessage – Glassmorphic card that renders the AI coach's reply.
- * Supports streaming mode (typewriter cursor) and completed mode.
+ * Supports streaming mode (typewriter cursor), completed mode, and a speaker replay button.
  */
 
 import { motion } from "framer-motion";
@@ -11,12 +11,16 @@ interface CoachMessageProps {
   text: string;
   timestamp?: Date;
   isStreaming?: boolean;
+  onSpeak?: (text: string) => void;
+  isSpeaking?: boolean;
 }
 
 export default function CoachMessage({
   text,
   timestamp,
   isStreaming = false,
+  onSpeak,
+  isSpeaking = false,
 }: CoachMessageProps) {
   return (
     <div className="flex items-start gap-3 group">
@@ -26,7 +30,22 @@ export default function CoachMessage({
       </div>
 
       <div className="flex-1 max-w-[85%]">
-        <p className="text-[11px] text-white/30 mb-1 font-medium ml-1">ApniAwaaz</p>
+        <div className="flex items-center justify-between mb-1 ml-1 pr-1">
+          <p className="text-[11px] text-white/30 font-medium">ApniAwaaz Coach</p>
+          {!isStreaming && text && onSpeak && (
+            <button
+              onClick={() => onSpeak(text)}
+              title={isSpeaking ? "Stop speech" : "Read aloud"}
+              className={`text-xs px-2 py-0.5 rounded-lg border transition-all flex items-center gap-1 ${
+                isSpeaking
+                  ? "bg-cyan-500/20 border-cyan-400 text-cyan-300 animate-pulse"
+                  : "bg-slate-900/60 border-slate-800 text-slate-400 hover:text-cyan-300 hover:border-slate-700"
+              }`}
+            >
+              <span>{isSpeaking ? "⏹️ Stop" : "🔊 Listen"}</span>
+            </button>
+          )}
+        </div>
 
         <motion.div
           initial={{ opacity: 0, scale: 0.98 }}

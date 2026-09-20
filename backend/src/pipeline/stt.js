@@ -43,31 +43,18 @@
  * @param {import("@deepgram/sdk").DeepgramClient} dgClient
  * @param {import("socket.io").Socket}             socket      – client socket for emitting events
  * @param {(text: string) => void}                 onFinalTranscript – called when is_final=true & text is non-empty
+ * @param {string}                                 language    – BCP-47 language code (default "en-US")
  * @returns {{ send: (buf: Buffer) => void, finish: () => void, connection: object }}
  */
-export function createLiveSession(dgClient, socket, onFinalTranscript) {
-  // ── Deepgram live config ────────────────────────────────────────────────────
-  //
-  //  ┌─────────────────────────────────────────────────────────────────────┐
-  //  │  WHY EACH PARAM EXISTS                                              │
-  //  │                                                                     │
-  //  │  encoding     : "linear16"  ← browser sends Int16Array (signed 16) │
-  //  │  sample_rate  : 16000       ← AudioContext sampleRate in page.tsx  │
-  //  │  channels     : 1           ← mono mic                             │
-  //  │  interim_results: true      ← stream partial text to UI in real-time│
-  //  │  endpointing  : 300         ← ms of silence → fires is_final=true  │
-  //  │  utterance_end_ms: 1000     ← UtteranceEnd flush fallback          │
-  //  │  vad_events   : true        ← SpeechStarted / UtteranceEnd events  │
-  //  │  smart_format : true        ← punctuation, casing, numbers         │
-  //  └─────────────────────────────────────────────────────────────────────┘
+export function createLiveSession(dgClient, socket, onFinalTranscript, language = "en-US") {
   const connection = dgClient.listen.live({
     model:             "nova-2",
-    language:          "en-US",
+    language:          language,
     encoding:          "linear16",
     sample_rate:       16000,
     channels:          1,
     interim_results:   true,
-    endpointing:       300,       // ← 300 ms silence → is_final fires quickly
+    endpointing:       300,
     utterance_end_ms:  1000,
     vad_events:        true,
     smart_format:      true,

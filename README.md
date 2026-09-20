@@ -35,7 +35,7 @@ Browser (Next.js)
 cd backend
 cp .env.example .env          # fill in your API keys
 npm install
-npm run dev                   # runs on http://localhost:4000
+node server.js                   # runs on http://localhost:4000
 ```
 
 ### 2. Frontend
